@@ -33,7 +33,7 @@ export default function Home () {
     <div>
       <Head>
         <title>Age Calculator, JavaScript</title>
-        <meta name='description' content='JavaScript calculate age - handle leap year' />
+        <meta name='description' content='How to calculate age in javascript - handle leap year' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className='max-w-screen-xl mx-auto p-28'>
