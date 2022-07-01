@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import axios from 'axios'
 import { CopyBlock, dracula } from 'react-code-blocks'
 import codes from '../components/codeblocks'
 import TopBar from '../components/TopBar'
+import { logEvent, getAnalytics } from 'firebase/analytics'
+import { initializeApp } from 'firebase/app'
 
 export default function Home () {
   const [dates, setDates] = useState({ birthdate: '2000-01-01', endDate: '2020-01-01' })
@@ -13,7 +15,29 @@ export default function Home () {
   const [language, changeLanguage] = useState('javascript')
   const [languageDemo, changeDemo] = useState(codes.javascript)
   const [lineNumbers, toggleLineNumbers] = useState(true)
+  const [app, setApp] = useState(null)
+  const [analytics, setAnalytics] = useState(null)
+
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: process.env.NEXT_PUBLIC_apiKey,
+      authDomain: process.env.NEXT_PUBLIC_authDomain,
+      databaseURL: process.env.NEXT_PUBLIC_databaseURL,
+      projectId: process.env.NEXT_PUBLIC_projectId,
+      storageBucket: process.env.NEXT_PUBLIC_storageBucket,
+      messagingSenderId: process.env.NEXT_PUBLIC_messagingSenderId,
+      appId: process.env.NEXT_PUBLIC_appId,
+      measurementId: process.env.NEXT_PUBLIC_measurementId
+    }
+    setApp(initializeApp(firebaseConfig))
+  }, [])
+  useEffect(() => {
+    if (!app) return
+    console.log('app is initialzed')
+    setAnalytics(getAnalytics(app))
+  }, [app])
   const getAge = async () => {
+    logEvent(analytics, 'calculate_age')
     if (new Date(dates.birthdate) > new Date(dates.endDate)) {
       return alert('Birth date should be before end date')
     }
@@ -36,7 +60,7 @@ export default function Home () {
         <meta name='description' content='How to calculate age in javascript - handle leap year' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className='max-w-screen-xl mx-auto p-28'>
+      <main className='max-w-screen-xl mx-auto p-4 md:p-28'>
         <div>
           <div>
             <div className='rounded-sm bg-gradient-to-r bg-white border border-gray-200 dark:border-gray-700 p-2 sm:p-6 dark:bg-gray-200'>
