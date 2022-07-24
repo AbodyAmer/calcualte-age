@@ -60,8 +60,11 @@ export default function Home () {
         <meta name='description' content='How to calculate age in javascript - handle leap year' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className='max-w-screen-xl mx-auto p-4 md:p-28'>
+      <main className='max-w-screen-xl mx-auto p-4 md:px-28 md:py-14'>
         <div>
+          <div className='text-center mb-4'>
+            <h1 className='text-3xl font-medium'>The correct way to calculate age in JavaScript</h1>
+          </div>
           <div>
             <div className='rounded-sm bg-gradient-to-r bg-white border border-gray-200 dark:border-gray-700 p-2 sm:p-6 dark:bg-gray-200'>
               <div className='flex'>
